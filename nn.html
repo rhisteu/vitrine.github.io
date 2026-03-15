@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VITRINE</title>
+
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="/_sdk/element_sdk.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+<script src="/_sdk/data_sdk.js"></script>
+
+<style>
+body{
+  box-sizing:border-box;
+}
+
+/* floating button container */
+#back-buttons{
+  position:fixed;
+  bottom:25px;
+  right:25px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:1000;
+}
+
+/* button style */
+.back-btn{
+  padding:10px 16px;
+  background:rgba(30,41,59,0.8);
+  backdrop-filter:blur(10px);
+  color:#f1f5f9;
+  text-decoration:none;
+  border-radius:10px;
+  border:1px solid rgba(148,163,184,0.2);
+  font-size:14px;
+  transition:all .3s ease;
+}
+
+.back-btn:hover{
+  background:rgba(30,41,59,1);
+  transform:translateY(-3px);
+}
+</style>
+
+</head>
+
+<body class="h-full" style="background: linear-gradient(135deg,#0f172a 0%,#1e293b 100%);">
+
+<main id="app-wrapper" class="h-full w-full overflow-auto">
+
+<div style="max-width:600px;margin:0 auto;padding:60px 24px;">
+
+<div style="text-align:center;margin-bottom:48px;">
+<h1 id="page-title"
+style="font-size:42px;font-weight:800;
+background:linear-gradient(135deg,#06b6d4 0%,#8b5cf6 100%);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+background-clip:text;
+margin:0 0 12px;
+letter-spacing:-0.5px;">
+NAME & NICKNAMES
+</h1>
+
+<div style="height:3px;width:60px;background:linear-gradient(90deg,#06b6d4 0%,#8b5cf6 100%);margin:0 auto;"></div>
+</div>
+
+<ul id="nickname-list"
+style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+</ul>
+
+</div>
+</main>
+
+<!-- Back Buttons -->
+<div id="back-buttons" style="position:fixed; bottom:25px; right:25px; display:flex; flex-direction:row; gap:10px; z-index:1000;">
+  <a href="about.html" class="back-btn">← Back</a>
+  <a href="home.html" class="back-btn">Back to Home</a>
+</div>
+
+<script>
+
+const nicknames=[
+"Steph",
+"Rhain",
+"Riri",
+"Yayan",
+"Yanyan",
+"Anie",
+"Kiki",
+"Rae",
+"Rin",
+"Ling"
+];
+
+function renderList(){
+
+const list=document.getElementById("nickname-list");
+list.innerHTML="";
+
+const colors=[
+"#06b6d4",
+"#8b5cf6",
+"#ec4899",
+"#f59e0b",
+"#10b981",
+"#ef4444",
+"#6366f1"
+];
+
+nicknames.forEach((name,i)=>{
+
+const li=document.createElement("li");
+const color=colors[i%colors.length];
+
+li.style.cssText=`
+padding:16px 20px;
+background:rgba(30,41,59,0.6);
+backdrop-filter:blur(10px);
+border-left:4px solid ${color};
+border-radius:8px;
+font-size:18px;
+font-weight:500;
+color:#f1f5f9;
+transition:all .3s ease;
+cursor:pointer;
+border:1px solid rgba(148,163,184,0.1);
+`;
+
+li.textContent=name;
+
+li.onmouseover=()=>{
+li.style.background="rgba(30,41,59,0.9)";
+li.style.transform="translateX(8px)";
+};
+
+li.onmouseout=()=>{
+li.style.background="rgba(30,41,59,0.6)";
+li.style.transform="translateX(0)";
+};
+
+list.appendChild(li);
+
+});
+
+}
+
+renderList();
+
+const defaultConfig={
+page_title:"Nicknames"
+};
+
+function applyConfig(config){
+document.getElementById("page-title").textContent=
+config.page_title||defaultConfig.page_title;
+}
+
+window.elementSdk.init({
+defaultConfig,
+onConfigChange:async(config)=>{
+applyConfig(config);
+},
+mapToCapabilities:(config)=>({
+recolorables:[],
+borderables:[],
+fontEditable:undefined,
+fontSizeable:undefined
+}),
+mapToEditPanelValues:(config)=>new Map([
+["page_title",config.page_title||defaultConfig.page_title]
+])
+});
+
+</script>
+
+</body>
+</html>
