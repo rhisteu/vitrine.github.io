@@ -588,25 +588,147 @@ footer p {
    </footer>
   </div>
   
-  <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
+<script>
+        // Default configuration
+        const defaultConfig = {
+            site_title: 'R. Usero',
+            about_title: 'About Me',
+            about_text: "Hi! I'm Rhian Stephanie DC. Usero. I'm 16 years old and was born on May 14. I'm currently taking the strand Computer Programming, which I chose because I'm fascinated by technology and how it shapes our world. My goal is to pursue a career in Information Technology, where I can continue to learn, innovate, and contribute to the tech industry.",
+            email_address: 'rhianstephanieusero@gmail.com',
+            primary_color: '#9933ff',
+            secondary_color: '#b366ff',
+            accent_color: '#7700ff',
+            background_color: '#0a0a14',
+            text_color: '#e5e7eb',
+            font_family: 'Playfair Display',
+            font_size: 16
+        };
 
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('show'); // toggle the show class
-        });
-
-        // Close mobile menu when clicking a link
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('show');
+        // Initialize Element SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange: async (config) => {
+                    // Update site title
+                    const siteTitle = document.getElementById('site-title');
+                    if (siteTitle) {
+                        siteTitle.textContent = config.site_title || defaultConfig.site_title;
+                    }
+                    
+                    // Update about title
+                    const aboutTitle = document.getElementById('about-title');
+                    if (aboutTitle) {
+                        aboutTitle.textContent = config.about_title || defaultConfig.about_title;
+                    }
+                    
+                    // Update about text
+                    const aboutText = document.getElementById('about-text');
+                    if (aboutText) {
+                        aboutText.textContent = config.about_text || defaultConfig.about_text;
+                    }
+                    
+                    // Update email
+                    const emailDisplay = document.getElementById('email-display');
+                    if (emailDisplay) {
+                        emailDisplay.textContent = config.email_address || defaultConfig.email_address;
+                    }
+                    
+                    // Update email link
+                    const emailLink = emailDisplay?.closest('a');
+                    if (emailLink) {
+                        emailLink.href = `mailto:${config.email_address || defaultConfig.email_address}`;
+                    }
+                    
+                    // Apply font family
+                    const customFont = config.font_family || defaultConfig.font_family;
+                    document.querySelectorAll('.font-display').forEach(el => {
+                        el.style.fontFamily = `${customFont}, Georgia, serif`;
+                    });
+                    
+                    // Apply font size scaling
+                    const baseSize = config.font_size || defaultConfig.font_size;
+                    document.body.style.fontSize = `${baseSize}px`;
+                },
+                mapToCapabilities: (config) => ({
+                    recolorables: [
+                        {
+                            get: () => config.background_color || defaultConfig.background_color,
+                            set: (value) => {
+                                config.background_color = value;
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.primary_color || defaultConfig.primary_color,
+                            set: (value) => {
+                                config.primary_color = value;
+                                window.elementSdk.setConfig({ primary_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.text_color || defaultConfig.text_color,
+                            set: (value) => {
+                                config.text_color = value;
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.secondary_color || defaultConfig.secondary_color,
+                            set: (value) => {
+                                config.secondary_color = value;
+                                window.elementSdk.setConfig({ secondary_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.accent_color || defaultConfig.accent_color,
+                            set: (value) => {
+                                config.accent_color = value;
+                                window.elementSdk.setConfig({ accent_color: value });
+                            }
+                        }
+                    ],
+                    borderables: [],
+                    fontEditable: {
+                        get: () => config.font_family || defaultConfig.font_family,
+                        set: (value) => {
+                            config.font_family = value;
+                            window.elementSdk.setConfig({ font_family: value });
+                        }
+                    },
+                    fontSizeable: {
+                        get: () => config.font_size || defaultConfig.font_size,
+                        set: (value) => {
+                            config.font_size = value;
+                            window.elementSdk.setConfig({ font_size: value });
+                        }
+                    }
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ['site_title', config.site_title || defaultConfig.site_title],
+                    ['about_title', config.about_title || defaultConfig.about_title],
+                    ['about_text', config.about_text || defaultConfig.about_text],
+                    ['email_address', config.email_address || defaultConfig.email_address]
+                ])
             });
-        });
-    }
-});
-</script>
+        }
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Close mobile menu when clicking a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
         // Smooth scroll for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
