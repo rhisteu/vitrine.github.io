@@ -290,22 +290,21 @@ nav a:hover {
 }
 
 #mobile-menu {
-    display: none;
-    margin-top: 1rem;
-    padding-bottom: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 1rem;
-}
-
-#mobile-menu.hidden {
-    display: none;
+    display: flex !important;   /* always show */
+    flex-direction: row;
+    gap: 2rem;
+    list-style: none;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
 }
 
 #mobile-menu ul {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    flex-direction: row;
+    gap: 2rem;
     list-style: none;
+    padding: 0;
 }
 
 #mobile-menu a {
@@ -320,6 +319,10 @@ nav a:hover {
     color: white;
 }
 
+/* Hide mobile menu button since menu is always visible */
+#mobile-menu-btn {
+    display: none;
+}
 /* Hero Section */
 .hero-section {
     min-height: 100vh;
@@ -548,18 +551,13 @@ footer p {
        <li><a href="contact.html" class="nav-link">Contact</a></li>
       </ul>
      </nav>
-     <button id="mobile-menu-btn">
-      <svg width="24" height="24" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-     </button>
-     <div id="mobile-menu" class="hidden">
-      <ul>
-       <li><a href="#hero-section">Home</a></li>
-       <li><a href="about.html">About</a></li>
-       <li><a href="contact.html">Contact</a></li>
-      </ul>
-     </div>
+     <div id="mobile-menu">
+  <ul>
+   <li><a href="#hero-section" class="nav-link">Home</a></li>
+   <li><a href="about.html" class="nav-link">About</a></li>
+   <li><a href="contact.html" class="nav-link">Contact</a></li>
+  </ul>
+</div>
     </div>
    </header>
 
